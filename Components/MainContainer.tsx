@@ -10,7 +10,7 @@ import Card from "./Card";
 import { getMovies } from "../utils/";
 
 const MainContainer = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<[]>();
   const [refreshing, setRefreshing] = useState(false);
 
   async function getMoviesFromApi() {
@@ -19,6 +19,7 @@ const MainContainer = () => {
   }
 
   const onRefresh = useCallback(async () => {
+    setMovies([]);
     setRefreshing(true);
     await getMoviesFromApi();
     setRefreshing(false)
@@ -27,6 +28,7 @@ const MainContainer = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <RefreshControl tintColor={'#fff'} refreshing={refreshing} onRefresh={onRefresh} />
       <Text style={styles.title}>Suggest.me</Text>
+      
       <Text style={styles.descr}>
         Discover new and exciting movies with Suggest.me!{"\n"}
         {"\n"}
@@ -36,7 +38,10 @@ const MainContainer = () => {
         Give it a try and see what the algorithm suggests for you 😉
       </Text>
       <View style={styles.cards}>
-        {movies.map((movie: any, index: number) => {
+      {!movies && <Text style={styles.loading}>Refresh page to discover new movies</Text>}
+      {refreshing && <Text style={styles.loading}>Loading...</Text>}
+
+        {movies?.map((movie: any, index: number) => {
           return <Card key={index} title={movie.title} imgSrc={movie.poster} />;
         })}
       </View>
@@ -72,4 +77,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
   },
+  loading: {
+    textAlign: "center",
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 24,
+    flex: 1
+  }
 });
