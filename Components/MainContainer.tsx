@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import Card from "./Card";
 import { getMovies } from "../utils/";
 
