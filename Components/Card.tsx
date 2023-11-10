@@ -2,14 +2,14 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { BlurView } from "expo-blur";
 
-
 interface ICardProps {
-  title: string,
-  imgSrc: string,
+  title: string;
+  imgSrc: string;
+  onPress?: () => void;
 }
-const Card: React.FC<ICardProps> = ({title, imgSrc}) => {
+const Card: React.FC<ICardProps> = ({ title, imgSrc, onPress }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onTouchStart={onPress}>
       <View style={styles.innerContainer}>
         <BlurView intensity={20} tint="default" style={styles.blur}>
           <Image

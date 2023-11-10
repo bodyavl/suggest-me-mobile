@@ -8,8 +8,15 @@ import {
 import { useCallback, useState } from "react";
 import Card from "./Card";
 import { getMovies } from "../utils/";
+import { HomeProps } from "../types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../App";
 
-const MainContainer = () => {
+interface IMainContainerProps {
+  navigation: NativeStackNavigationProp<RootStackParamList, "Home", undefined>;
+}
+
+const MainContainer = ({ navigation }: IMainContainerProps) => {
   const [movies, setMovies] = useState<[]>();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -22,13 +29,17 @@ const MainContainer = () => {
     setMovies([]);
     setRefreshing(true);
     await getMoviesFromApi();
-    setRefreshing(false)
+    setRefreshing(false);
   }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <RefreshControl tintColor={'#fff'} refreshing={refreshing} onRefresh={onRefresh} />
+      <RefreshControl
+        tintColor={"#fff"}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
       <Text style={styles.title}>Suggest.me</Text>
-      
+
       <Text style={styles.descr}>
         Discover new and exciting movies with Suggest.me!{"\n"}
         {"\n"}
@@ -38,11 +49,22 @@ const MainContainer = () => {
         Give it a try and see what the algorithm suggests for you 😉
       </Text>
       <View style={styles.cards}>
-      {!movies && <Text style={styles.loading}>Refresh page to discover new movies</Text>}
-      {refreshing && <Text style={styles.loading}>Loading...</Text>}
+        {!movies && (
+          <Text style={styles.loading}>
+            Refresh page to discover new movies
+          </Text>
+        )}
+        {refreshing && <Text style={styles.loading}>Loading...</Text>}
 
         {movies?.map((movie: any, index: number) => {
-          return <Card key={index} title={movie.title} imgSrc={movie.poster} />;
+          return (
+            <Card
+              key={index}
+              title={movie.title}
+              imgSrc={movie.poster}
+              onPress={() => navigation.navigate("Details", { id: movie.id })}
+            />
+          );
         })}
       </View>
     </ScrollView>
@@ -79,9 +101,9 @@ const styles = StyleSheet.create({
   },
   loading: {
     textAlign: "center",
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     fontSize: 24,
-    flex: 1
-  }
+    flex: 1,
+  },
 });
