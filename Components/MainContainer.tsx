@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useCallback, useState } from "react";
 import Card from "./Card";
-import { getMovies } from "../utils/";
+import { getMovies } from "../services";
 import { HomeProps } from "../types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
@@ -62,7 +62,12 @@ const MainContainer = ({ navigation }: IMainContainerProps) => {
               key={index}
               title={movie.title}
               imgSrc={movie.poster}
-              onPress={() => navigation.navigate("Details", { id: movie.id })}
+              onPress={() =>
+                navigation.navigate("Details", {
+                  id: movie._id,
+                  title: movie.title,
+                })
+              }
             />
           );
         })}

@@ -12,7 +12,6 @@ export default function Home({ navigation }: HomeProps) {
         resizeMode="cover"
         style={styles.background}
       >
-        <Header />
         <MainContainer navigation={navigation} />
       </ImageBackground>
     </SafeAreaView>
