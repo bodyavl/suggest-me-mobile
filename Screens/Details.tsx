@@ -13,6 +13,7 @@ import { DetailsProps } from "../types";
 import { useFocusEffect } from "@react-navigation/native";
 import { getMovieDetails } from "../services";
 import { IMovie } from "../interfaces";
+import { DetailsAbout } from "../Components/UI";
 const bgImage = require("../assets/Background.png");
 
 export interface IDetailsProps {
@@ -63,18 +64,14 @@ const Details = ({ route, navigation }: DetailsProps) => {
               i === movie.genres.length - 1 ? genre.name : `${genre.name}, `
             )}
           </Text>
-          <Text style={styles.detailsAbout}>
-            {movie?.type && `Type: ${movie.type}`}
-          </Text>
-          <Text style={styles.detailsAbout}>
-            Rating: {movie?.rating.toFixed(2)}
-          </Text>
-          <Text style={styles.detailsAbout}>
+          <DetailsAbout>{movie?.type && `Type: ${movie.type}`}</DetailsAbout>
+          <DetailsAbout>Rating: {movie?.rating.toFixed(2)}</DetailsAbout>
+          <DetailsAbout>
             {movie?.runtime && `Runtime: ${movie?.runtime} minutes`}
-          </Text>
-          <Text style={styles.detailsAbout}>
+          </DetailsAbout>
+          <DetailsAbout>
             {movie?.date && `Date: ${new Date(movie.date).toDateString()}`}
-          </Text>
+          </DetailsAbout>
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
@@ -112,10 +109,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
   },
-  detailsAbout: {
-    color: "#fff",
-    fontSize: 16,
-  },
+
   poster: {
     borderRadius: 12,
     width: "100%",
